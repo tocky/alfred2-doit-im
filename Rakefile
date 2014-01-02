@@ -59,8 +59,8 @@ end
 
 desc "Install Gems"
 task "bundle:install" => [:chdir] do
-  sh %Q{/usr/bin/bundle install --standalone --clean} do |ok, res|
-    if ! ok
+  sh %Q{bundle install --standalone --clean} do |ok, res|
+    if !ok
       puts "fail to install gems (status = #{res.exitstatus})"
     end
   end
@@ -68,8 +68,8 @@ end
 
 desc "Update Gems"
 task "bundle:update" => [:chdir] do
-  sh %Q{/usr/bin/bundle update && /usr/bin/bundle install --standalone --clean} do |ok, res|
-    if ! ok
+  sh %Q{bundle update && bundle install --standalone --clean} do |ok, res|
+    if !ok
       puts "fail to update gems (status = #{res.exitstatus})"
     end
   end
@@ -107,10 +107,12 @@ end
 
 desc "Create packed Workflow"
 task :export => [:config] do
-  file = "#{$config['id']}.alfredworkflow"
+  ruby_version = RbConfig::CONFIG["ruby_version"]
+
+  filename = "#{$config['id']}.alfredworkflow"
   output = 'output'
 
-  FileUtils.rm file if File.exists? file
+  FileUtils.rm filename if File.exists? filename
   FileUtils.rmtree output if File.exists? output
 
   FileUtils.cp_r $config['path'], output
@@ -118,9 +120,9 @@ task :export => [:config] do
 
   # clean up workflow files for export
   Dir.foreach('.') do |file|
-    FileUtils.rmtree file if %w(Gemfile Gemfile.lock .bundle config.yml).include? file
+    FileUtils.rmtree file if %w(Gemfile Gemfile.lock .bundle).include? file
   end
-  Dir.chdir('bundle/ruby/2.0.0') do
+  Dir.chdir("bundle/ruby/#{ruby_version}") do
     Dir.foreach('.') do |dir|
       FileUtils.rmtree dir if %w(build_info cache doc specifications).include? dir
     end
@@ -137,7 +139,7 @@ task :export => [:config] do
     end
   end
 
-  `/usr/bin/zip -r ../#{file} *`
+  `/usr/bin/zip -r ../#{filename} *`
 
   chdir('..')
   FileUtils.rmtree output
