@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string>me.zhaowu.alfred2-ruby-template</string>
+	<string>net.tocky.alfred2-doit-im</string>
 	<key>connections</key>
 	<dict>
 		<key>21557827-8003-42B7-A042-16D4C9278FEC</key>
@@ -17,15 +17,37 @@
 				<string></string>
 			</dict>
 		</array>
+		<key>44329937-99BD-4EF9-9D90-C4209CF993ED</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>81C6B6B7-C864-4173-8FCC-92F3852C115F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>7C3A0DA7-D6D5-4F40-ACD0-E5A041B60866</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>81C6B6B7-C864-4173-8FCC-92F3852C115F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
 	</dict>
 	<key>createdby</key>
-	<string>Zhao Cai</string>
+	<string>tocky</string>
 	<key>description</key>
-	<string>A starting place for developing Ruby based workflow in Alfred</string>
+	<string>Alfred2 Workflow for Doit.im</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>Ruby Based Workflow Template</string>
+	<string>Alfred2 Doit.im</string>
 	<key>objects</key>
 	<array>
 		<dict>
@@ -40,9 +62,9 @@
 				<key>runningsubtext</key>
 				<string>working...</string>
 				<key>script</key>
-				<string>/usr/bin/ruby ./main.rb {query}</string>
+				<string>/usr/bin/ruby ./today.rb {query}</string>
 				<key>title</key>
-				<string>Show today&#39;s tasks</string>
+				<string>Show today's tasks</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
@@ -72,6 +94,60 @@
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>62</integer>
+				<key>keyword</key>
+				<string>dim next</string>
+				<key>runningsubtext</key>
+				<string>working...</string>
+				<key>script</key>
+				<string>/usr/bin/ruby ./next.rb {query}</string>
+				<key>title</key>
+				<string>Show next tasks</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>7C3A0DA7-D6D5-4F40-ACD0-E5A041B60866</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>62</integer>
+				<key>keyword</key>
+				<string>dim inbox</string>
+				<key>runningsubtext</key>
+				<string>working...</string>
+				<key>script</key>
+				<string>/usr/bin/ruby ./inbox.rb {query}</string>
+				<key>title</key>
+				<string>Show tasks in inbox</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>44329937-99BD-4EF9-9D90-C4209CF993ED</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string>readme</string>
@@ -80,15 +156,25 @@
 		<key>21557827-8003-42B7-A042-16D4C9278FEC</key>
 		<dict>
 			<key>ypos</key>
-			<real>60.0</real>
+			<real>60</real>
+		</dict>
+		<key>44329937-99BD-4EF9-9D90-C4209CF993ED</key>
+		<dict>
+			<key>ypos</key>
+			<real>300</real>
+		</dict>
+		<key>7C3A0DA7-D6D5-4F40-ACD0-E5A041B60866</key>
+		<dict>
+			<key>ypos</key>
+			<real>180</real>
 		</dict>
 		<key>81C6B6B7-C864-4173-8FCC-92F3852C115F</key>
 		<dict>
 			<key>ypos</key>
-			<real>60.0</real>
+			<real>180</real>
 		</dict>
 	</dict>
 	<key>webaddress</key>
-	<string>https://github.com/zhaocai/alfred2-ruby-template</string>
+	<string>https://github.com/tocky/alfred2-doit-im</string>
 </dict>
 </plist>

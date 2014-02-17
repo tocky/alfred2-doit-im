@@ -1,15 +1,15 @@
 ## workflow build config
 
 # id and name for the workflow (bundle id = domain.id)
-id: alfred2-ruby-template
+id: alfred2-doit-im
 
 # base domain
-domain: me.zhaowu
+domain: net.tocky
 
-name: Ruby Based Workflow Template
-description: A starting place for developing Ruby based workflow in Alfred
-created_by: Zhao Cai
-website: https://github.com/zhaocai/alfred2-ruby-template
+name: Alfred2 Doit.im
+description: Alfred2 Workflow for Doit.im
+created_by: tocky
+website: https://github.com/tocky/alfred2-doit-im
 readme: readme
 
 ## development config
