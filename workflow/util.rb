@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 
+require "alfred"
 require "mechanize"
 
 class Util
@@ -28,7 +29,7 @@ class Util
     JSON.parse page.body
   end
 
-  def self.print_feedback(feedback, attribute = "today")
+  def self.print_feedback(feedback, attribute)
     json = Util.get_tasks_as_json attribute
     json['entities'].each do |entity|
       feedback.add_item({
@@ -38,6 +39,29 @@ class Util
         :arg => "https://i.doit.im/home/#/task/#{entity['uuid']}",
         :valid => "yes"
       })
+    end
+  end
+
+  def self.exec(attribute = "today")
+    Alfred.with_friendly_error do |alfred|
+      # Enabling cache (https://github.com/zhaocai/alfred-workflow#automate-saving-and-loading-cached-feedback)
+      alfred.with_rescue_feedback = true
+      alfred.with_cached_feedback do
+        use_cache_file :expire => 300
+      end
+
+      # setting = Alfred::Setting.new alfred
+      # setting[:base_url] = 'https://i.doit.im'
+      # setting.dump
+
+      if fb = alfred.feedback.get_cached_feedback
+        puts fb.to_alfred(ARGV)
+      else
+        fb = alfred.feedback
+        Util.print_feedback fb, attribute
+        puts fb.to_alfred(ARGV)
+        fb.put_cached_feedback
+      end
     end
   end
 end
