@@ -7,7 +7,7 @@ require "./setting"
 
 class Util
   def self.prompt_username
-    username = %x[osascript -e 'display dialog "Username" default answer ""' -e 'text returned of result']
+    username = %x[osascript -e 'display dialog "Username for Doit.im" default answer ""' -e 'text returned of result']
     username.chomp!
     raise if username.empty?
     return username
@@ -32,8 +32,14 @@ class Util
       form = page.forms[0]
       form.username = prompt_username
       form.password = prompt_password
-      agent.submit form
-      agent.cookie_jar.save_as @@cookie_yaml
+      if agent.submit(form).uri.to_s == "#{@@setting.get(:base_url)}/signin"
+        # Login failed
+        %x[osascript -e 'display dialog "Login failed"']
+      else
+        # Login succeeded
+        agent.cookie_jar.save_as @@cookie_yaml
+        %x[osascript -e 'display dialog "Login succeeded"']
+      end
     end
     return agent
   end
