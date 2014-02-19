@@ -77,7 +77,7 @@ class Util
       # Enabling cache (https://github.com/zhaocai/alfred-workflow#automate-saving-and-loading-cached-feedback)
       alfred.with_rescue_feedback = true
       alfred.with_cached_feedback do
-        use_cache_file :expire => @@setting.get(:cache_expiration)
+        use_cache_file :file => "#{alfred.storage_path}/#{attribute}.cache", :expire => @@setting.get(:cache_expiration)
       end
 
       if fb = alfred.feedback.get_cached_feedback
