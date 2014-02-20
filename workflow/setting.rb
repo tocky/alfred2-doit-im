@@ -6,7 +6,7 @@ require "alfred"
 class Setting
   def initialize(alfred)
     @setting ||= Alfred::Setting.new alfred
-    @setting[:cookie_yaml] = 'cookie.yaml'
+    @setting[:cookies_dump] = 'cookies.dump'
     @setting[:cache_expiration] = 300
     @setting[:base_url] = 'https://i.doit.im'
     @setting.dump

@@ -2,8 +2,9 @@
 # encoding: utf-8
 
 require "alfred"
-require "mechanize"
-require "./setting"
+require "httpclient"
+require "json"
+require_relative "setting"
 
 class Util
   def self.prompt_username
@@ -21,39 +22,65 @@ class Util
   end
 
   def self.get_enabled_agent
-    agent = Mechanize.new
+    # agent = Mechanize.new
 
-    if File.exists? @@cookie_yaml
-      # Load cookie from file if exist
-      agent.cookie_jar.load @@cookie_yaml
+    # if File.exists? @@cookie_yaml
+    #   # Load cookie from file if exist
+    #   agent.cookie_jar.load @@cookie_yaml
+    # else
+    #   # Create a session newly
+    #   page = agent.get "#{@@setting.get(:base_url)}/signin"
+    #   form = page.forms[0]
+    #   form.username = prompt_username
+    #   form.password = prompt_password
+    #   if agent.submit(form).uri.to_s == "#{@@setting.get(:base_url)}/signin"
+    #     # Login failed
+    #     %x[osascript -e 'display dialog "Login failed"']
+    #   else
+    #     # Login succeeded
+    #     agent.cookie_jar.save_as @@cookie_yaml
+    #     %x[osascript -e 'display dialog "Login succeeded"']
+    #   end
+    # end
+
+    hc = HTTPClient.new
+    hc.cookie_manager.cookies_file = @@cookies_dump
+
+    if File.exists? @@cookies_dump
+      # Load cookies from dump file if exist
+      hc.cookie_manager.load_cookies
     else
-      # Create a session newly
-      page = agent.get "#{@@setting.get(:base_url)}/signin"
-      form = page.forms[0]
-      form.username = prompt_username
-      form.password = prompt_password
-      if agent.submit(form).uri.to_s == "#{@@setting.get(:base_url)}/signin"
+      # Create a session newly and save cookies
+      form_data = {}
+      form_data["username"] = prompt_username
+      form_data["password"] = prompt_password
+      res = hc.post "#{@@setting.get(:base_url)}/signin", form_data
+      # if res.http_header.request_uri.path == "/signin"
+      if res.headers["Location"] == "/signin"
         # Login failed
         %x[osascript -e 'display dialog "Login failed"']
       else
         # Login succeeded
-        agent.cookie_jar.save_as @@cookie_yaml
+        hc.cookie_manager.save_all_cookies
         %x[osascript -e 'display dialog "Login succeeded"']
       end
     end
-    return agent
+
+    return hc
   end
 
   def self.get_tasks_as_json(attribute)
-    agent = self.get_enabled_agent
+    hc = self.get_enabled_agent
     begin
-      page = agent.get "#{@@setting.get(:base_url)}/api/tasks/#{attribute}"
+      # page = agent.get "#{@@setting.get(:base_url)}/api/tasks/#{attribute}"
+      page = hc.get_content "#{@@setting.get(:base_url)}/api/tasks/#{attribute}"
     rescue
       # Retry to get an enabled agent when any exception occurs or HTTP status is 401
-      File.delete @@cookie_yaml
+      File.delete @@cookies_dump
       get_tasks_as_json attribute
     end
-    JSON.parse page.body
+    # JSON.parse page.body
+    JSON.parse page
   end
 
   def self.print_feedback(feedback, attribute)
@@ -72,7 +99,7 @@ class Util
   def self.exec(attribute = "today")
     Alfred.with_friendly_error do |alfred|
       @@setting ||= Setting.new alfred
-      @@cookie_yaml ||= "#{alfred.storage_path}/#{@@setting.get(:cookie_yaml)}"
+      @@cookies_dump ||= "#{alfred.storage_path}/#{@@setting.get(:cookies_dump)}"
 
       # Enabling cache (https://github.com/zhaocai/alfred-workflow#automate-saving-and-loading-cached-feedback)
       alfred.with_rescue_feedback = true
