@@ -22,27 +22,6 @@ class Util
   end
 
   def self.get_enabled_agent
-    # agent = Mechanize.new
-
-    # if File.exists? @@cookie_yaml
-    #   # Load cookie from file if exist
-    #   agent.cookie_jar.load @@cookie_yaml
-    # else
-    #   # Create a session newly
-    #   page = agent.get "#{@@setting.get(:base_url)}/signin"
-    #   form = page.forms[0]
-    #   form.username = prompt_username
-    #   form.password = prompt_password
-    #   if agent.submit(form).uri.to_s == "#{@@setting.get(:base_url)}/signin"
-    #     # Login failed
-    #     %x[osascript -e 'display dialog "Login failed"']
-    #   else
-    #     # Login succeeded
-    #     agent.cookie_jar.save_as @@cookie_yaml
-    #     %x[osascript -e 'display dialog "Login succeeded"']
-    #   end
-    # end
-
     hc = HTTPClient.new
     hc.cookie_manager.cookies_file = @@cookies_dump
 

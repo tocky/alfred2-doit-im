@@ -6,11 +6,11 @@ id: alfred2-doit-im
 # base domain
 domain: net.tocky
 
-name: Alfred2 Doit.im
+name: Alfred2 Doit.im v1.0
 description: Alfred2 Workflow for Doit.im
 created_by: tocky
 website: https://github.com/tocky/alfred2-doit-im
-readme: readme
+readme: ""
 
 ## development config
 

@@ -9,27 +9,19 @@ GEM
       plist (>= 3.1.0)
       terminal-notifier (>= 1.5.0)
     builder (3.2.2)
-    coderay (1.1.0)
     fuzzy_match (2.0.4)
     gyoku (1.1.1)
       builder (>= 2.1.2)
     httpclient (2.3.4.1)
-    method_source (0.8.2)
     moneta (0.7.20)
     nori (2.3.0)
     plist (3.1.0)
-    pry (0.9.12.6)
-      coderay (~> 1.0)
-      method_source (~> 0.8)
-      slop (~> 3.4)
-    slop (3.4.7)
     terminal-notifier (1.5.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  alfred-workflow
-  httpclient
-  plist
-  pry
+  alfred-workflow (~> 2.0.5)
+  httpclient (~> 2.3.4)
+  plist (~> 3.1.0)
